@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=flask
+      - POSTGRES_PASSWORD=flask
+      - POSTGRES_DB=flask
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.com #the username to login to pgadmin
+      PGADMIN_DEFAULT_PASSWORD: pgadmin # the password to login to pgadmin
+    ports:
+      - "80:80"
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json # preconfigured servers/connections
+    depends_on:
+      - "db"
+volumes:
+  db:
+    driver: local
