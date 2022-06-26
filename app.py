@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
-from routes.helloWorldRoute import helloWorldRoutes
+from routes.homeRoutes import homeRoutes
 
 # INIT Flask
 app = Flask(__name__)
@@ -25,8 +25,8 @@ jwt.init_app(app)
 # INIT Flask Restful API
 api = Api(app)
 
-# ADD HelloWorld Routes
-helloWorldRoutes(api, "/")
+# ADD Home Routes
+homeRoutes(api, "/")
 
 if __name__ == '__main__':
     app.run()
