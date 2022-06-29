@@ -1,5 +1,5 @@
 from flask_restful import Api
-from resources.homeRessource import HomeListResource
+from resources.homeResource import HomeListResource
 
 
 def homeRoutes(api: Api, baseurl: str):

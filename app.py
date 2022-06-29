@@ -2,18 +2,14 @@ from flask import Flask
 from config import Config
 from flask_restful import Api
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
+from extensions import jwt, db
 
 from routes.homeRoutes import homeRoutes
+from routes.userRoutes import userRoutes
 
 # INIT Flask
 app = Flask(__name__)
 app.config.from_object(Config)
-
-# INIT SQLAlchemy + JWT
-db = SQLAlchemy()
-jwt = JWTManager()
 
 # ADD SQLAlchemy into Flask
 db.init_app(app)
@@ -25,8 +21,9 @@ jwt.init_app(app)
 # INIT Flask Restful API
 api = Api(app)
 
-# ADD Home Routes
-homeRoutes(api, "/")
+# ADD Routes
+homeRoutes(api, '/')  # Home Routes
+userRoutes(api, '/user')  # User Routes
 
 if __name__ == '__main__':
     app.run()
