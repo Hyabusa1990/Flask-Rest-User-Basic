@@ -2,7 +2,6 @@ from flask import request
 from flask_restful import Resource, abort
 from http import HTTPStatus
 from models.userModel import User
-import json
 
 
 def check_if_user_exist(user_id):
@@ -21,11 +20,9 @@ class UserListResource(Resource):
         if User.get_by_username(username=username):
             return {'message': 'username already in use'}, HTTPStatus.BAD_REQUEST
 
-        hashed_password = User.hash_password(password)
-
         user = User(
-            username=username,
-            password=hashed_password
+            Username=username,
+            Password=password
         )
 
         user.save()
@@ -56,12 +53,12 @@ class UserResource(Resource):
         data = request.get_json()
 
         username = data.get('username')
-        password = User.hash_password(data.get('password'))
+        password = data.get('password')
 
         user = User.get_by_id(user_id=user_id)
 
-        user.data.username = username
-        user.data.password = password
+        user.Username = username
+        user.Password = password
 
         user.save()
 

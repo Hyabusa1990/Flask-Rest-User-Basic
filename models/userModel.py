@@ -1,6 +1,5 @@
 from extensions import db
 from passlib.hash import pbkdf2_sha256
-import json
 
 
 class User(db.Model):
@@ -16,6 +15,23 @@ class User(db.Model):
             'id': self.id,
             'username': self.username
         }
+
+    @property
+    def Username(self):
+        return self.username
+
+    @Username.setter
+    def Username(self, value):
+        self.username = value or self.username
+
+    @property
+    def Password(self):
+        return self.password
+
+    @Password.setter
+    def Password(self, value):
+        if value:
+            self.password = self.hash_password(value)
 
     @classmethod
     def hash_password(cls, password):
