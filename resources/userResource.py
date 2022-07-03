@@ -1,4 +1,5 @@
 from flask import request
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource, abort
 from http import HTTPStatus
 from models.userModel import User
@@ -29,6 +30,7 @@ class UserListResource(Resource):
 
         return {"data": user.data, 'message': ''}, HTTPStatus.CREATED
 
+    @jwt_required()
     def get(self):
         users = User.get_all()
         return {'data': [user.data for user in users], 'message': 'OK'}, HTTPStatus.OK
@@ -36,10 +38,12 @@ class UserListResource(Resource):
 
 class UserResource(Resource):
 
+    @jwt_required()
     def get(self, user_id):
         check_if_user_exist(user_id=user_id)
         return User.get_by_id(user_id=user_id)
 
+    @jwt_required()
     def delete(self, user_id):
         check_if_user_exist(user_id=user_id)
 
@@ -48,6 +52,7 @@ class UserResource(Resource):
 
         return {'message': 'User {} deleted'.format(user_id)}, HTTPStatus.OK
 
+    @jwt_required()
     def put(self, user_id):
         check_if_user_exist(user_id=user_id)
         data = request.get_json()

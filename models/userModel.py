@@ -60,3 +60,15 @@ class User(db.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def login(cls, username, password):
+        user = cls.query.filter_by(username=username).one_or_none()
+
+        if user:
+            if pbkdf2_sha256.verify(password, user.Password):
+                return user
+            else:
+                return None
+        else:
+            return None
