@@ -28,7 +28,7 @@ class UserListResource(Resource):
 
         user.save()
 
-        return {"data": user.data, 'message': ''}, HTTPStatus.CREATED
+        return {"data": user.data, 'message': 'OK'}, HTTPStatus.CREATED
 
     @jwt_required()
     def get(self):
