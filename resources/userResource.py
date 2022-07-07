@@ -1,5 +1,5 @@
 from flask import request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 from flask_restful import Resource, abort
 from http import HTTPStatus
 from models.userModel import User
@@ -47,24 +47,31 @@ class UserResource(Resource):
     def delete(self, user_id):
         check_if_user_exist(user_id=user_id)
 
-        user = User.get_by_id(user_id=user_id)
-        user.delete()
+        if current_user.id == user_id:
+            user = User.get_by_id(user_id=user_id)
+            user.delete()
 
-        return {'message': 'User {} deleted'.format(user_id)}, HTTPStatus.OK
+            return {'message': 'User {} deleted'.format(user_id)}, HTTPStatus.OK
+        else:
+            return {'message': 'Unauthorized'}, HTTPStatus.UNAUTHORIZED
 
     @jwt_required()
     def put(self, user_id):
         check_if_user_exist(user_id=user_id)
-        data = request.get_json()
 
-        username = data.get('username')
-        password = data.get('password')
+        if current_user.id == user_id:
+            data = request.get_json()
 
-        user = User.get_by_id(user_id=user_id)
+            username = data.get('username')
+            password = data.get('password')
 
-        user.Username = username
-        user.Password = password
+            user = User.get_by_id(user_id=user_id)
 
-        user.save()
+            user.Username = username
+            user.Password = password
 
-        return {'data': user.data, 'message': 'OK'}, HTTPStatus.OK
+            user.save()
+
+            return {'data': user.data, 'message': 'OK'}, HTTPStatus.OK
+        else:
+            return {'message': 'Unauthorized'}, HTTPStatus.UNAUTHORIZED
