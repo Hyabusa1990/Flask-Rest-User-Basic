@@ -51,11 +51,11 @@ class User(db.Model):
 
     @classmethod
     def get_by_username(cls, username):
-        return cls.query.filter_by(username=username).first()
+        return cls.query.filter_by(username=username).one_or_none()
 
     @classmethod
     def get_by_id(cls, user_id):
-        return cls.query.filter_by(id=user_id).first()
+        return cls.query.filter_by(id=user_id).one_or_none()
 
     @classmethod
     def get_all(cls):

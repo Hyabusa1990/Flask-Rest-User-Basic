@@ -1,8 +1,9 @@
-from flask_restful import Resource
+from flask import Blueprint, jsonify
 from http import HTTPStatus
 
+home_api = Blueprint('homeResource', __name__)
 
-class HomeListResource(Resource):
 
-    def get(self):
-        return {"data": "Home"}, HTTPStatus.OK
+@home_api.route('/', methods=['GET'])
+def home():
+    return jsonify({"data": "Home"}), HTTPStatus.OK

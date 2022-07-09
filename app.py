@@ -1,13 +1,12 @@
 from flask import Flask
-from config import Config
-from flask_restful import Api
 from flask_migrate import Migrate
+
+from config import Config
 from extensions import jwt, db
 from models.userModel import User
-
-from routes.homeRoutes import homeRoutes
-from routes.userRoutes import userRoutes
-from routes.tokenRoutes import tokenRoutes
+from resources.homeResource import home_api
+from resources.tokenResource import token_api
+from resources.userResource import user_api
 
 # INIT Flask
 app = Flask(__name__)
@@ -19,9 +18,6 @@ db.init_app(app)
 migrate = Migrate(app, db)
 # ADD JWT to Flask
 jwt.init_app(app)
-
-# INIT Flask Restful API
-api = Api(app)
 
 
 # Register a callback function that takes whatever object is passed in as the
@@ -42,9 +38,9 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 
 # ADD Routes
-homeRoutes(api, '/')  # Home Routes
-userRoutes(api, '/user')  # User Routes
-tokenRoutes(api, '/token')  # Token Routes
+app.register_blueprint(home_api, url_prefix='')  # ADD Home Routes
+app.register_blueprint(user_api, url_prefix='/user')  # ADD User Routes
+app.register_blueprint(token_api, url_prefix='/token')  # ADD Token Routes
 
 if __name__ == '__main__':
     app.run()
