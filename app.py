@@ -3,10 +3,10 @@ from flask_migrate import Migrate
 
 from config import Config
 from extensions import jwt, db
-from models.userModel import User
-from resources.homeResource import home_api
-from resources.tokenResource import token_api
-from resources.userResource import user_api
+from models.user_model import User
+from resources.home_resource import home_api
+from resources.token_resource import token_api
+from resources.user_resource import user_api
 
 # INIT Flask
 app = Flask(__name__)

@@ -1,7 +1,7 @@
 from flask import request, jsonify, Blueprint
 from http import HTTPStatus
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, current_user
-from models.userModel import User
+from models.user_model import User
 
 token_api = Blueprint('tokenResource', __name__)
 

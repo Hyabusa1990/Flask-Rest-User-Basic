@@ -1,7 +1,7 @@
+from http import HTTPStatus
 from flask import request, Blueprint, jsonify, abort
 from flask_jwt_extended import jwt_required, current_user
-from http import HTTPStatus
-from models.userModel import User
+from models.user_model import User
 
 user_api = Blueprint('userResource', __name__)
 
